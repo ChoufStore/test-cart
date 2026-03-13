@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>test-cart - Main Store</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .navbar {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        
+        .product-card {
+            background: white;
+            color: #333;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+            cursor: pointer;
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .product-image {
+            height: 200px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+        }
+        
+        .product-info {
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .product-name {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        
+        .product-price {
+            font-size: 2rem;
+            color: #667eea;
+            font-weight: bold;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0,0,0,0.2);
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">🛍️ test-cart</div>
+    </div>
+    
+    <div class="hero">
+        <h1>🇲🇦 Welcome to test-cart</h1>
+        <p>Discover authentic Moroccan products</p>
+    </div>
+    
+    <div class="container">
+        <h2 style="text-align:center; margin-bottom:2rem;">Our Products</h2>
+        <div class="products-grid" id="products-grid">
+            <p style="text-align:center;">Loading products...</p>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2026 test-cart</p>
+    </div>
+
+    <script>
+        function viewProduct(productId, productName, productPrice, productIcon) {
+            localStorage.setItem('currentProduct', JSON.stringify({
+                id: productId,
+                name: productName,
+                price: productPrice,
+                icon: productIcon
+            }));
+            window.location.href = 'product.html';
+        }
+        
+        fetch('https://firestore.googleapis.com/v1/projects/choufstore-1a66b/databases/(default)/documents/stores/test-cart/products')
+            .then(response => response.json())
+            .then(data => {
+                const grid = document.getElementById('products-grid');
+                
+                if (data.documents && data.documents.length > 0) {
+                    let html = '';
+                    data.documents.forEach(doc => {
+                        const fields = doc.fields || {};
+                        const name = fields.name?.stringValue || 'Product';
+                        const price = fields.price?.integerValue || '0';
+                        const icon = fields.icon?.stringValue || '🛍️';
+                        
+                        html += `
+                            <div class="product-card" onclick="viewProduct('${doc.name.split('/').pop()}', '${name}', ${price}, '${icon}')">
+                                <div class="product-image">${icon}</div>
+                                <div class="product-info">
+                                    <div class="product-name">${name}</div>
+                                    <div class="product-price">${price} MAD</div>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    grid.innerHTML = html;
+                } else {
+                    grid.innerHTML = '<p style="text-align:center;">No products yet</p>';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('products-grid').innerHTML = '<p style="text-align:center;">Error loading products</p>';
+            });
+    </script>
+</body>
+</html>
