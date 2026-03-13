@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .navbar {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem 2rem;
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: white;
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .back-btn {
+            color: white;
+            text-decoration: none;
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        
+        .product-detail {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        
+        .product-image {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12rem;
+            padding: 2rem;
+            min-height: 400px;
+        }
+        
+        .product-info h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-bottom: 1rem;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            color: #667eea;
+            font-weight: bold;
+            margin: 1rem 0;
+        }
+        
+        .price::after {
+            content: ' MAD';
+            font-size: 1.5rem;
+            color: #999;
+        }
+        
+        .description {
+            line-height: 1.8;
+            color: #666;
+            margin: 1.5rem 0;
+            font-size: 1.1rem;
+        }
+        
+        .btn-add {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            width: 100%;
+            transition: transform 0.2s;
+        }
+        
+        .btn-add:hover {
+            transform: scale(1.02);
+        }
+        
+        .reviews {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+        }
+        
+        .review {
+            background: #f5f5f5;
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+        }
+        
+        .stars {
+            color: #ffc107;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .related {
+            margin-top: 3rem;
+            color: white;
+        }
+        
+        .related h2 {
+            margin-bottom: 1rem;
+        }
+        
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+        
+        .related-item {
+            background: rgba(255,255,255,0.1);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        
+        .related-item:hover {
+            transform: scale(1.05);
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            background: rgba(0,0,0,0.2);
+            margin-top: 3rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="logo">🛍️ test-cart</div>
+        <a href="index.html" class="back-btn">← Back to Store</a>
+    </div>
+    
+    <div class="container">
+        <div id="product-detail" class="product-detail">
+            <div class="product-image" id="product-image">🛍️</div>
+            <div class="product-info">
+                <h1 id="product-name">Loading...</h1>
+                <div class="price" id="product-price">0</div>
+                <p class="description" id="product-description">Beautiful handcrafted Moroccan product made with love and tradition.</p>
+                <button class="btn-add" onclick="addToCart()">Add to Cart</button>
+                
+                <div class="reviews">
+                    <h3>Customer Reviews</h3>
+                    <div class="review">
+                        <div class="stars">★★★★★</div>
+                        <p><strong>Ahmed:</strong> Excellent quality! Fast delivery.</p>
+                    </div>
+                    <div class="review">
+                        <div class="stars">★★★★☆</div>
+                        <p><strong>Fatima:</strong> Very nice product, exactly as described.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="related">
+            <h2>You might also like</h2>
+            <div class="related-grid">
+                <div class="related-item" onclick="window.location.href='index.html'">
+                    <div style="font-size:2rem;">🛍️</div>
+                    <p>Browse All</p>
+                </div>
+                <div class="related-item" onclick="window.location.href='index.html'">
+                    <div style="font-size:2rem;">🏺</div>
+                    <p>Tagine</p>
+                </div>
+                <div class="related-item" onclick="window.location.href='index.html'">
+                    <div style="font-size:2rem;">🫖</div>
+                    <p>Tea Set</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="footer">
+        <p>© 2026 test-cart - All Rights Reserved</p>
+    </div>
+
+    <script>
+        // Get product data from localStorage
+        const productData = JSON.parse(localStorage.getItem('currentProduct'));
+        
+        if (productData) {
+            document.getElementById('product-image').textContent = productData.icon || '🛍️';
+            document.getElementById('product-name').textContent = productData.name;
+            document.getElementById('product-price').textContent = productData.price;
+        } else {
+            // If no product data, redirect to main store
+            window.location.href = 'index.html';
+        }
+        
+        function addToCart() {
+            alert('✅ ' + productData.name + ' added to cart!');
+        }
+    </script>
+</body>
+</html>
